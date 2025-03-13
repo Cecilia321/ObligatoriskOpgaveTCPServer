@@ -9,8 +9,8 @@ namespace ObligatoriskOpgaveTCPServer
     public class RequestData
     {
         public string Method { get; set; }
-        public string Numb1 { get; set; }
-        public string Numb2 { get; set; }
+        public int Numb1 { get; set; }
+        public int Numb2 { get; set; }
 
 
         

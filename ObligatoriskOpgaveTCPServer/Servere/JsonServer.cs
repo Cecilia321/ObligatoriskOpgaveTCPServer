@@ -68,8 +68,9 @@ namespace ObligatoriskOpgaveTCPServer.Servere
         {
             try
             {
-                //
-                var request = JsonSerializer.Deserialize<RequestData>(jsonInput);
+                //Jeg deserializer - en JSON-streng (jsonInput) bliver deserialiseret (konverteret) til et mit objekt (RequestData) ved hjælp af JsonSerializer.Deserialize<T>().
+                RequestData request = JsonSerializer.Deserialize<RequestData>(jsonInput);
+                request.Method = request.Method.ToUpper();
 
                 if (request == null || string.IsNullOrEmpty(request.Method))
                 return JsonSerializer.Serialize(new {error = "Invalid JSON format. Missing required fields." });
@@ -82,20 +83,11 @@ namespace ObligatoriskOpgaveTCPServer.Servere
                       {"SUB", (numb1, numb2) => $"Resultatet er: {numb1 - numb2}" } //munisser 2 tal
                      };
 
-                //Tjek om metoden er kendt
-                if (!operations.TryGetValue(request.Method.ToUpper(), out var operation))
-                    return JsonSerializer.Serialize(new { error = "Unknown method. Use 'RAN', 'ADD' or 'SUB'." });
-
-                // Konverter Numb1 og Numb2 fra string til int
-                if (!int.TryParse(request.Numb1, out int numb1))
-                    return JsonSerializer.Serialize(new { error = $"Invalid value for Numb1: {request.Numb1}. It must be an integer." });
-
-                if (!int.TryParse(request.Numb2, out int numb2))
-                    return JsonSerializer.Serialize(new { error = $"Invalid value for Numb2: {request.Numb2}. It must be an integer." });
 
                 // Beregn resultatet
-                string result = operation(numb1, numb2);
-                return JsonSerializer.Serialize(new { result });
+                string result = operations[request.Method](request.Numb1, request.Numb2);
+                //Serialize konvertrere resultatet til jsonformat
+                return JsonSerializer.Serialize(new { result }); 
             }   
             catch (JsonException)
             {
@@ -107,6 +99,7 @@ namespace ObligatoriskOpgaveTCPServer.Servere
     }
 
 
-// skriv fx {"Method":"ADD","Numb1":"5","Numb2":"10"} i socket testen 
+// skriv fx {"Method":"Add","Numb1":5,"Numb2":10} i socket testen 
+
 
 
