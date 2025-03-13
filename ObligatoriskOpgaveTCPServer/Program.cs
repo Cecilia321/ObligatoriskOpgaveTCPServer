@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using ObligatoriskOpgaveTCPServer;
+using ObligatoriskOpgaveTCPServer.Servere;
 
-Server s = new Server();
+JsonServer s = new JsonServer();
 s.Start();
 Console.Read();

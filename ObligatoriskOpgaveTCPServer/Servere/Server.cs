@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ObligatoriskOpgaveTCPServer
+namespace ObligatoriskOpgaveTCPServer.Servere
 {
     class Server
     {
@@ -87,9 +87,6 @@ namespace ObligatoriskOpgaveTCPServer
             {
                 socket.Close();
             }
-
-
-
         }
         }
     }
